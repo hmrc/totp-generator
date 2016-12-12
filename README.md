@@ -16,13 +16,15 @@ This code is open source software licensed under the [Apache 2.0 License]("http:
 
 This tool generates a 8-digits TOTP code (Timed Based One-time Password) from a shared secret key.
 Thd implementation uses a HMAC (Hash-based Message Authentication Code) SHA-512 encryption algorithm.
-We based our work on the Java reference implementation provided in https://tools.ietf.org/html/rfc6238#appendix-A.
 This tool is built for testing purposes only, it is not intended to be part of a production stack.
 
 ### Packaging
 
-The Jar file containing the binaries can be build locally by running `sbt clean assembly`
-You could also find it here:
+You can find the Jar containing the binaries in here:
+https://bintray.com/hmrc/releases/totp-generator
+https://hmrc.bintray.com/releases/uk/gov/hmrc/totp-generator_2.11/
+
+Alternatively, the Jar containing the binaries can be built locally by running `sbt clean assembly`
 
 
 ### Running
@@ -33,9 +35,6 @@ example: `./generate-totp.sh BZDHSGCIGQXRWVQX`
 
 
 ***
-
-
-[Ciao](#ciao-bella)
 
 # Useful links:
 
