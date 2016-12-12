@@ -15,7 +15,7 @@ This code is open source software licensed under the [Apache 2.0 License]("http:
 # Instructions
 
 This tool generates a 8-digits TOTP code (Timed Based One-time Password) from a shared secret key.
-Thd implementation uses a HMAC (Hash-based Message Authentication Code) SHA-512 encryption algorithm.
+The implementation uses a HMAC (Hash-based Message Authentication Code) SHA-512 encryption algorithm.
 This tool is built for testing purposes only, it is not intended to be part of a production stack.
 
 ### Packaging
