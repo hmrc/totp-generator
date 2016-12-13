@@ -22,8 +22,8 @@ This tool is built for testing purposes only, it is not intended to be part of a
 ### Packaging
 
 You can find the Jar containing the binaries in here:
-https://bintray.com/hmrc/releases/totp-generator
-https://hmrc.bintray.com/releases/uk/gov/hmrc/totp-generator_2.11/
+* https://bintray.com/hmrc/releases/totp-generator
+* https://hmrc.bintray.com/releases/uk/gov/hmrc/totp-generator_2.11/
 
 Alternatively, the Jar containing the binaries can be built locally by running `sbt clean assembly`
 
