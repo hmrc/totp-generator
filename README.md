@@ -38,6 +38,12 @@ Alternatively, the Jar containing the binaries can be built locally by running `
 For example: `./generate-totp.sh BZDHSGCIGQXRWVQX`
 
 
+### Unit tests
+```
+sbt test
+```
+
+
 ***
 
 # Useful links:
