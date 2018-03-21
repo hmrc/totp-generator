@@ -49,7 +49,7 @@ class TotpGeneratorSpec extends FunSpec {
 
     it("should generate the same TOTP code in the same 30 seconds window") {
       assert(totpCode11 == totpCode12)
-      assert(totpCode22 == totpCode22)
+      assert(totpCode21 == totpCode22)
     }
   }
 
