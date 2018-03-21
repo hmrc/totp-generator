@@ -15,7 +15,7 @@ The code in this project is based on Mark Lister's project [Scala TOTP Auth](htt
 
 # Instructions
 
-This tool generates a 8-digits TOTP code (Timed Based One-time Password) from a shared secret key.
+This tool generates a 8-digits TOTP code (Timed Based One-Time Password) from a shared secret key.
 <br />
 Each TOTP code is valid for a time window of 30 seconds.
 <br />
