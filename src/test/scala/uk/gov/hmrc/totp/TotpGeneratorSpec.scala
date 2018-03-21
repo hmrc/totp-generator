@@ -28,28 +28,26 @@ class TotpGeneratorSpec extends FunSpec {
 
   private val window1_time1 = dateFormat.parse("2016-12-12 09:45:00.001").getTime
   private val window1_time2 = dateFormat.parse("2016-12-12 09:45:29.999").getTime
-
   private val window2_time1 = dateFormat.parse("2016-12-12 09:45:30.000").getTime
   private val window2_time2 = dateFormat.parse("2016-12-12 09:45:59.999").getTime
 
-  val totpCode11 = TotpGenerator.getTotp(secret, window1_time1)
-  val totpCode12 = TotpGenerator.getTotp(secret, window1_time2)
-
-  val totpCode21 = TotpGenerator.getTotp(secret, window2_time1)
-  val totpCode22 = TotpGenerator.getTotp(secret, window2_time2)
+  private val window1_totpCode1 = TotpGenerator.getTotp(secret, window1_time1)
+  private val window1_totpCode2 = TotpGenerator.getTotp(secret, window1_time2)
+  private val window2_totpCode1 = TotpGenerator.getTotp(secret, window2_time1)
+  private val window2_totpCode2 = TotpGenerator.getTotp(secret, window2_time2)
 
   describe("TOTP generator") {
     it("should generate a different TOTP code for each 30 seconds window") {
-      assert(totpCode11 != totpCode21)
-      assert(totpCode12 != totpCode21)
+      assert(window1_totpCode1 != window2_totpCode1)
+      assert(window1_totpCode1 != window2_totpCode2)
 
-      assert(totpCode11 != totpCode22)
-      assert(totpCode12 != totpCode22)
+      assert(window1_totpCode2 != window2_totpCode1)
+      assert(window1_totpCode2 != window2_totpCode2)
     }
 
     it("should generate the same TOTP code in the same 30 seconds window") {
-      assert(totpCode11 == totpCode12)
-      assert(totpCode21 == totpCode22)
+      assert(window1_totpCode1 == window1_totpCode2)
+      assert(window2_totpCode1 == window2_totpCode2)
     }
   }
 
