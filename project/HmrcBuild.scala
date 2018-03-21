@@ -20,7 +20,6 @@ import sbt._
 import uk.gov.hmrc.SbtAutoBuildPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning
 
-
 object HmrcBuild extends Build {
 
   val appName = "totp-generator"
