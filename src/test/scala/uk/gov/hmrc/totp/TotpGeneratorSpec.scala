@@ -18,9 +18,9 @@ package uk.gov.hmrc.totp
 
 import java.text.SimpleDateFormat
 
-import org.scalatest.FunSpec
+import org.scalatest.{FunSpec, Matchers}
 
-class TotpGeneratorSpec extends FunSpec {
+class TotpGeneratorSpec extends FunSpec with Matchers {
 
   private val secret: String = "-TOTP-SECRET-12345-"
 
@@ -38,17 +38,26 @@ class TotpGeneratorSpec extends FunSpec {
 
   describe("TOTP generator") {
     it("should generate a different TOTP code for each 30 seconds window") {
-      assert(window1_totpCode1 != window2_totpCode1)
-      assert(window1_totpCode1 != window2_totpCode2)
+      window1_totpCode1 should not equal window2_totpCode1
+      window1_totpCode1 should not equal window2_totpCode2
 
-      assert(window1_totpCode2 != window2_totpCode1)
-      assert(window1_totpCode2 != window2_totpCode2)
+      window1_totpCode2 should not equal window2_totpCode1
+      window1_totpCode2 should not equal window2_totpCode2
     }
 
     it("should generate the same TOTP code in the same 30 seconds window") {
-      assert(window1_totpCode1 == window1_totpCode2)
-      assert(window2_totpCode1 == window2_totpCode2)
+      window1_totpCode1 shouldBe window1_totpCode2
+      window2_totpCode1 shouldBe window2_totpCode2
     }
   }
 
+  describe("TOTP generator using SHA1") {
+
+    val sha1_totpCode = TotpSha1Generator.getTotp(secret, window1_time1)
+    val sha512_totpCode = TotpGenerator.getTotp(secret, window1_time1)
+
+    it("should generate a different TOTP code than SHA512") {
+      sha1_totpCode should not equal sha512_totpCode
+    }
+  }
 }
