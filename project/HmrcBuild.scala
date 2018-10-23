@@ -19,8 +19,6 @@ import sbt._
 import uk.gov.hmrc.SbtAutoBuildPlugin
 import uk.gov.hmrc.SbtArtifactory
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
-import _root_.play.sbt.PlayScala
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin
 import uk.gov.hmrc.versioning.SbtGitVersioning
 import uk.gov.hmrc.SbtArtifactory.autoImport.makePublicallyAvailableOnBintray
 
@@ -30,7 +28,7 @@ object HmrcBuild extends Build {
   val appName = "totp-generator"
 
   lazy val microservice = Project(appName, file("."))
-    .enablePlugins(SbtAutoBuildPlugin, SbtGitVersioning, SbtArtifactory, PlayScala, SbtDistributablesPlugin)
+    .enablePlugins(SbtAutoBuildPlugin, SbtGitVersioning, SbtArtifactory)
     .settings(
       scalaVersion := "2.11.11",
       majorVersion := 0,
