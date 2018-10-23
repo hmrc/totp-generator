@@ -27,18 +27,21 @@ import scala.math._
 
 sealed trait CryptoAlgorithm
 case object HmacSHA512 extends CryptoAlgorithm
+case object HmacSHA1 extends CryptoAlgorithm
 
-trait Totp {
+trait HmacShaTotp {
 
-  private val totpTimeInterval = 30.seconds
+  def totpTimeInterval: FiniteDuration
+  def codeLength : Int
+  def crypto: CryptoAlgorithm
 
-  def getTotpCode(secret: String): String =
+  final def getTotpCode(secret: String): String = {
     getTotp(secret, System.currentTimeMillis())
+  }
 
-  def getTotp(secret: String, totpGenerationTimeInMillis: Long): String = {
+  final def getTotp(secret: String, totpGenerationTimeInMillis: Long): String = {
     val timeWindow = totpGenerationTimeInMillis / totpTimeInterval.toMillis
-    val codeLength = 8
-    val crypto = HmacSHA512
+
     val msg: Array[Byte] = BigInt(timeWindow).toByteArray.reverse.padTo(8, 0.toByte).reverse
 
     val hash = hmacSha(crypto.toString, new Base32().decode(secret), msg)
@@ -59,9 +62,31 @@ trait Totp {
     hmac.init(macKey)
     hmac.doFinal(text)
   }
+
 }
+
+
+trait TotpSha512 extends HmacShaTotp {
+  final override val totpTimeInterval = 30.seconds
+  final override val codeLength = 8
+  final override val crypto = HmacSHA512
+}
+
+trait TotpSha1 extends HmacShaTotp {
+  final override val totpTimeInterval = 30.seconds
+  final override val codeLength = 6
+  final override val crypto = HmacSHA1
+}
+
+trait Totp extends TotpSha512
 
 object TotpGenerator extends Totp with App {
   if (args.length < 1) println("Secret is missing.")
   else println("TOTP: " + getTotpCode(args(0)))
 }
+
+object TotpSha1Generator extends TotpSha1 with App {
+  if (args.length < 1) println("Secret is missing.")
+  else println("TOTP: " + getTotpCode(args(0)))
+}
+
