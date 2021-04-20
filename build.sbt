@@ -12,14 +12,11 @@ import uk.gov.hmrc.SbtArtifactory.autoImport.makePublicallyAvailableOnBintray
   lazy val microservice = Project(appName, file("."))
     .enablePlugins(SbtAutoBuildPlugin, SbtGitVersioning, SbtArtifactory)
     .settings(
-      scalaVersion := "2.12.10",
+      scalaVersion := "2.12.12",
       majorVersion := 0,
       makePublicallyAvailableOnBintray := true,
       libraryDependencies ++= deps,
-      resolvers := Seq(
-        Resolver.bintrayRepo("hmrc", "releases"),
-        "typesafe-releases" at "https://repo.typesafe.com/typesafe/releases/"
-      )
+      resolvers += "typesafe-releases" at "https://repo.typesafe.com/typesafe/releases/"
     )
 
   val compile: Seq[ModuleID] = Seq(
