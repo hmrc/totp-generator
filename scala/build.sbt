@@ -10,7 +10,6 @@ import uk.gov.hmrc.SbtArtifactory.autoImport.makePublicallyAvailableOnBintray
   lazy val deps: Seq[ModuleID] = compile ++ test
 
   lazy val microservice = Project(appName, file("."))
-    .enablePlugins(SbtAutoBuildPlugin, SbtGitVersioning, SbtArtifactory)
     .settings(
       scalaVersion := "2.12.12",
       majorVersion := 0,
