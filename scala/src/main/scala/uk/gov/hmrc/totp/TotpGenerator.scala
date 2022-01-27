@@ -19,9 +19,11 @@ package uk.gov.hmrc.totp
 import java.security.Key
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-
 import org.apache.commons.codec.binary.Base32
+import uk.gov.hmrc.totp.TotpGenerator.{args, getTotpCode}
 
+import java.time.format.DateTimeFormatter
+import java.time.{Instant, ZoneId, ZonedDateTime}
 import scala.concurrent.duration._
 import scala.math._
 
@@ -35,8 +37,9 @@ trait HmacShaTotp {
   def codeLength : Int
   def crypto: CryptoAlgorithm
 
-  final def getTotpCode(secret: String): String = {
-    getTotp(secret, System.currentTimeMillis())
+  final def getTotpCode(secret: String, dateNowInMillis: Long): String = {
+
+    getTotp(secret, dateNowInMillis)
   }
 
   final def getTotp(secret: String, totpGenerationTimeInMillis: Long): String = {
@@ -82,11 +85,42 @@ trait Totp extends TotpSha512
 
 object TotpGenerator extends Totp with App {
   if (args.length < 1) println("Secret is missing.")
-  else println("TOTP: " + getTotpCode(args(0)))
+  else {
+    val dateNowInMillis = System.currentTimeMillis()
+    val instant = Instant.ofEpochMilli(dateNowInMillis)
+
+    val zonedDateTimeUtc = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"))
+    val dateTimeFormatter2 = DateTimeFormatter.ISO_ZONED_DATE_TIME
+    val zonedDateTimeUtcString = dateTimeFormatter2.format(zonedDateTimeUtc)
+    println(s"TOTP for $zonedDateTimeUtcString: " + getTotpCode(args(0), dateNowInMillis))
+
+    // specific date date
+    val format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+    val dateInMillis = format.parse("2021-06-01 00:00:00.000").toInstant().toEpochMilli()
+    println(s"TOTP for 2021-06-01T00:00:00.000: " + getTotpCode(args(0), dateInMillis))
+
+  }
 }
 
 object TotpSha1Generator extends TotpSha1 with App {
   if (args.length < 1) println("Secret is missing.")
-  else println("TOTP: " + getTotpCode(args(0)))
+  else {
+    val dateNowInMillis = System.currentTimeMillis()
+
+    val instant = Instant.ofEpochMilli(dateNowInMillis)
+
+    val zonedDateTimeUtc = ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"))
+    val dateTimeFormatter2 = DateTimeFormatter.ISO_ZONED_DATE_TIME
+
+    val zonedDateTimeUtcString = dateTimeFormatter2.format(zonedDateTimeUtc)
+
+    //zonedDateTimeUtc: java.time.ZonedDateTime = 2017-02-13T12:14:20.666Z[UTC]
+    println(s"TOTP for $zonedDateTimeUtcString: " + getTotpCode(args(0), dateNowInMillis))
+
+    // specific date date
+    val format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+    val dateInMillis = format.parse("2021-06-01 00:00:00.000").toInstant().toEpochMilli()
+    println(s"TOTP for 2021-06-01T00:00:00.000: " + getTotpCode(args(0), dateInMillis))
+  }
 }
 
