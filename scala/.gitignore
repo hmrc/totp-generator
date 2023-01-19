@@ -1,5 +1,6 @@
 .*
 !.gitignore
+!.scalafmt.conf
 
 logs
 project/project
