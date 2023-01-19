@@ -19,11 +19,10 @@ package uk.gov.hmrc.totp
 import java.security.Key
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-
-import org.apache.commons.codec.binary.Base32
-
 import scala.concurrent.duration._
 import scala.math._
+
+import org.apache.commons.codec.binary.Base32
 
 sealed trait CryptoAlgorithm
 case object HmacSHA512 extends CryptoAlgorithm

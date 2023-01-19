@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.scalafmt.conf
+!.scalafix.conf
 
 logs
 project/project
