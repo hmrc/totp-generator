@@ -53,7 +53,7 @@ class TotpGeneratorSpec extends FunSpec with Matchers {
 
   describe("TOTP generator using SHA1") {
 
-    val sha1_totpCode = TotpSha1Generator.getTotp(secret, window1_time1)
+    val sha1_totpCode   = TotpSha1Generator.getTotp(secret, window1_time1)
     val sha512_totpCode = TotpGenerator.getTotp(secret, window1_time1)
 
     it("should generate a different TOTP code than SHA512") {
