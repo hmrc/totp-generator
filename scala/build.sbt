@@ -1,28 +1,32 @@
-import sbt.Keys._
 import sbt._
-import uk.gov.hmrc.SbtAutoBuildPlugin
-import uk.gov.hmrc.SbtArtifactory
+import sbt.Keys._
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
-import uk.gov.hmrc.versioning.SbtGitVersioning
-import uk.gov.hmrc.SbtArtifactory.autoImport.makePublicallyAvailableOnBintray
 
-  val appName = "totp-generator"
-  lazy val deps: Seq[ModuleID] = compile ++ test
+lazy val appName = "totp-generator"
 
-  lazy val microservice = Project(appName, file("."))
-    .settings(
-      scalaVersion := "2.12.12",
-      majorVersion := 0,
-      makePublicallyAvailableOnBintray := true,
-      libraryDependencies ++= deps,
-      resolvers += "typesafe-releases" at "https://repo.typesafe.com/typesafe/releases/"
-    )
+lazy val scala212 = "2.12.16"
+lazy val scala213 = "2.13.8"
+lazy val supportedScalaVersions = List(scala212, scala213)
 
-  val compile: Seq[ModuleID] = Seq(
-    "commons-codec" % "commons-codec" % "1.10"
+lazy val deps: Seq[ModuleID] = compile ++ test
+
+lazy val microservice = Project(appName, file("."))
+  .settings(
+    crossScalaVersions := supportedScalaVersions,
+  )
+  .settings(
+    scalaVersion := scala213,
+    majorVersion := 0,
+    isPublicArtefact := true,
+    libraryDependencies ++= deps
   )
 
-  val test: Seq[ModuleID] = Seq(
-    "org.scalatest" %% "scalatest" % "3.0.2" % "test",
-    "org.pegdown" % "pegdown" % "1.5.0" % "test"
-  )
+val compile: Seq[ModuleID] = Seq(
+  "commons-codec"         % "commons-codec"   % "1.10"
+)
+
+val test: Seq[ModuleID] = Seq(
+  "org.scalatest"         %%  "scalatest"     % "3.2.15" % "test",
+  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.62.2",
+  "org.pegdown"           %   "pegdown"       % "1.5.0" % "test"
+)
