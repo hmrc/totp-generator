@@ -2,9 +2,9 @@
 
 **IMPORTANT**: These examples are built for testing purposes only, it is not intended to be part of a production stack.
 
-* [Python](python/README.md)
-* [Scala](scala/README.md)
-* [Java](java/README.md)
+* [Scala](Scala-README.md)
+* [Python](https://github.com/hmrc/totp-generator-python/blob/main/README.md)
+* [Java](https://github.com/hmrc/totp-generator-java/blob/main/README.md)
 
 ## Useful links:
 
