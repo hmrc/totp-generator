@@ -26,7 +26,7 @@ val compile: Seq[ModuleID] = Seq(
 )
 
 val test: Seq[ModuleID] = Seq(
-  "org.scalatest"         %%  "scalatest"     % "3.2.15" % "test",
-  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.62.2",
-  "org.pegdown"           %   "pegdown"       % "1.5.0" % "test"
-)
+  "org.scalatest"         %%  "scalatest"     % "3.2.3",
+  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.36.8",
+  "org.pegdown"           %   "pegdown"       % "1.5.0"
+).map(_ % Test)
