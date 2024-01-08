@@ -12,7 +12,7 @@ lazy val deps: Seq[ModuleID] = compile ++ test
 
 lazy val microservice = Project(appName, file("."))
   .settings(
-    crossScalaVersions := supportedScalaVersions,
+    crossScalaVersions := supportedScalaVersions
   )
   .settings(
     scalaVersion := scala213,
