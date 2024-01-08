@@ -5,7 +5,7 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 lazy val appName = "totp-generator"
 
 lazy val scala212 = "2.12.16"
-lazy val scala213 = "2.13.8"
+lazy val scala213 = "2.13.12"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
 lazy val deps: Seq[ModuleID] = compile ++ test
@@ -26,7 +26,7 @@ val compile: Seq[ModuleID] = Seq(
 )
 
 val test: Seq[ModuleID] = Seq(
-  "org.scalatest"         %%  "scalatest"     % "3.2.3",
-  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.36.8",
+  "org.scalatest"         %%  "scalatest"     % "3.2.17",
+  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.62.2",
   "org.pegdown"           %   "pegdown"       % "1.5.0"
 ).map(_ % Test)
