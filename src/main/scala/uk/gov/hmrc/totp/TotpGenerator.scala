@@ -19,20 +19,19 @@ package uk.gov.hmrc.totp
 import java.security.Key
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-
-import org.apache.commons.codec.binary.Base32
-
 import scala.concurrent.duration._
 import scala.math._
 
+import org.apache.commons.codec.binary.Base32
+
 sealed trait CryptoAlgorithm
 case object HmacSHA512 extends CryptoAlgorithm
-case object HmacSHA1 extends CryptoAlgorithm
+case object HmacSHA1   extends CryptoAlgorithm
 
 trait HmacShaTotp {
 
   def totpTimeInterval: FiniteDuration
-  def codeLength : Int
+  def codeLength: Int
   def crypto: CryptoAlgorithm
 
   final def getTotpCode(secret: String): String = {
@@ -44,8 +43,8 @@ trait HmacShaTotp {
 
     val msg: Array[Byte] = BigInt(timeWindow).toByteArray.reverse.padTo(8, 0.toByte).reverse
 
-    val hash = hmacSha(crypto.toString, new Base32().decode(secret), msg)
-    val offset: Int = hash(hash.length - 1) & 0xf
+    val hash         = hmacSha(crypto.toString, new Base32().decode(secret), msg)
+    val offset: Int  = hash(hash.length - 1) & 0xf
     val binary: Long = ((hash(offset) & 0x7f) << 24) |
       ((hash(offset + 1) & 0xff) << 16) |
       ((hash(offset + 2) & 0xff) << 8 |
@@ -57,7 +56,7 @@ trait HmacShaTotp {
   }
 
   private def hmacSha(crypto: String, keyBytes: Array[Byte], text: Array[Byte]): Array[Byte] = {
-    val hmac: Mac = Mac.getInstance(crypto)
+    val hmac: Mac   = Mac.getInstance(crypto)
     val macKey: Key = new SecretKeySpec(keyBytes, "RAW")
     hmac.init(macKey)
     hmac.doFinal(text)
@@ -65,17 +64,16 @@ trait HmacShaTotp {
 
 }
 
-
 trait TotpSha512 extends HmacShaTotp {
   final override val totpTimeInterval = 30.seconds
-  final override val codeLength = 8
-  final override val crypto = HmacSHA512
+  final override val codeLength       = 8
+  final override val crypto           = HmacSHA512
 }
 
 trait TotpSha1 extends HmacShaTotp {
   final override val totpTimeInterval = 30.seconds
-  final override val codeLength = 6
-  final override val crypto = HmacSHA1
+  final override val codeLength       = 6
+  final override val crypto           = HmacSHA1
 }
 
 trait Totp extends TotpSha512
@@ -89,4 +87,3 @@ object TotpSha1Generator extends TotpSha1 with App {
   if (args.length < 1) println("Secret is missing.")
   else println("TOTP: " + getTotpCode(args(0)))
 }
-
