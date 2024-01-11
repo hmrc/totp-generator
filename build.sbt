@@ -4,29 +4,25 @@ import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
 lazy val appName = "totp-generator"
 
-lazy val scala212 = "2.12.16"
-lazy val scala213 = "2.13.8"
-lazy val supportedScalaVersions = List(scala212, scala213)
+scalaVersion := "2.13.12"
 
-lazy val deps: Seq[ModuleID] = compile ++ test
+ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 lazy val microservice = Project(appName, file("."))
+  .disablePlugins(JUnitXmlReportPlugin)
   .settings(
-    crossScalaVersions := supportedScalaVersions,
-  )
-  .settings(
-    scalaVersion := scala213,
     majorVersion := 0,
     isPublicArtefact := true,
-    libraryDependencies ++= deps
+    libraryDependencies ++= LibraryDependencies.compile ++ LibraryDependencies.test
   )
 
-val compile: Seq[ModuleID] = Seq(
-  "commons-codec"         % "commons-codec"   % "1.10"
-)
+commands ++= Seq(
+  Command.command("run-all-tests") { state => "test" :: state },
 
-val test: Seq[ModuleID] = Seq(
-  "org.scalatest"         %%  "scalatest"     % "3.2.3",
-  "com.vladsch.flexmark"  %   "flexmark-all"  % "0.36.8",
-  "org.pegdown"           %   "pegdown"       % "1.5.0"
-).map(_ % Test)
+  Command.command("clean-and-test") { state => "clean" :: "compile" :: "run-all-tests" :: state },
+
+  // Coverage does not need compile !
+  Command.command("pre-commit") { state => "clean" :: "scalafmtAll" :: "scalafixAll" :: "coverage" :: "run-all-tests" :: "coverageOff" :: "coverageAggregate" :: state }
+)

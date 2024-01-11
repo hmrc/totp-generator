@@ -17,5 +17,3 @@
 package uk.gov.hmrc.totp
 
 class JavaTotpGenerator extends TotpSha512
-
-
