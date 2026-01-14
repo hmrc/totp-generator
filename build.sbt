@@ -2,18 +2,15 @@ import sbt._
 import sbt.Keys._
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
-lazy val appName = "totp-generator"
+ThisBuild / scalaVersion := "3.3.7"
+ThisBuild / majorVersion := 1
 
-scalaVersion := "2.13.16"
-
-ThisBuild / libraryDependencySchemes += "org.scala-lang.modules" %% "scala-xml" % VersionScheme.Always
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
-lazy val microservice = Project(appName, file("."))
+lazy val microservice = Project("totp-generator", file("."))
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
-    majorVersion := 0,
     isPublicArtefact := true,
     libraryDependencies ++= LibraryDependencies.compile ++ LibraryDependencies.test
   )

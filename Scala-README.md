@@ -3,7 +3,7 @@
 ## Requirements
 
 * [sbt](https://www.scala-sbt.org/)
-* JDK 8 (newer versions should work but have not been tested)
+* JDK 11 (newer versions should work but have not been tested)
 
 ## Usage
 
