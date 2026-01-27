@@ -79,11 +79,11 @@ trait TotpSha1 extends HmacShaTotp {
 trait Totp extends TotpSha512
 
 object TotpGenerator extends Totp with App {
-  if (args.length < 1) Console.println("Secret is missing.")
+  if (Option(args).map(_.length).getOrElse(0) < 1) Console.println("Secret is missing.")
   else Console.println(s"TOTP: ${getTotpCode(args(0))}")
 }
 
 object TotpSha1Generator extends TotpSha1 with App {
-  if (args.length < 1) Console.println("Secret is missing.")
+  if (Option(args).map(_.length).getOrElse(0) < 1) Console.println("Secret is missing.")
   else Console.println(s"TOTP: ${getTotpCode(args(0))}")
 }
